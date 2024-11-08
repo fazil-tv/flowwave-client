@@ -5,6 +5,9 @@ import { z } from 'zod';
 import { cn } from "@/lib/utils";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/Input";
+import { useRegisterUserMutation } from '@/redux/user/userApi';
+import { useRouter } from "next/navigation";
+import { makeApiCall } from '@/utils/makeApiCall';
 
 
 const signupSchema = z.object({
@@ -48,7 +51,9 @@ export function SignupForm() {
     confirmPassword?: string;
   };
 
+  const router = useRouter();
   const [errors, setErrors] = useState<Errors>({});
+  const [signup, { isLoading: isSignupLoading }] = useRegisterUserMutation();
 
 
 
@@ -57,12 +62,9 @@ export function SignupForm() {
     setErrors({ ...errors, [e.target.name]: '' });
   };
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+
     e.preventDefault();
-    console.log("Form submitted");
-
-    console.log(formData,"{}{}{}")
-
     const validation = signupSchema.safeParse(formData);
 
     if (!validation.success) {
@@ -75,6 +77,43 @@ export function SignupForm() {
       });
       return;
     }
+
+    
+    try {
+  
+      makeApiCall(
+        () =>
+          signup({
+            username: formData.username,
+            email: formData.email,
+            password: formData.password,
+            confirmPassword: formData.confirmPassword,
+          }).unwrap(),
+        {
+          afterSuccess: (signupResponse: any) => {
+
+            console.log("signupresponse", signupResponse);
+
+            console.log('Signup successful:', signupResponse.email);
+
+            if (signupResponse.success) {
+              router.push(`/verify-user?email=${signupResponse.email}`);
+            }
+          },
+          afterError: (error: any) => {
+            console.error('Signup failed:', error.message);
+          },
+          toast: (message: any) => {
+            console.log(message);
+          },
+        }
+      );
+    } catch (error) {
+      console.error('Signup failed:', error);
+    }
+
+
+
   };
 
   return (
