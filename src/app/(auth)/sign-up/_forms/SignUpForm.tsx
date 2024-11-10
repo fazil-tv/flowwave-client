@@ -53,6 +53,7 @@ export function SignupForm() {
 
   const router = useRouter();
   const [errors, setErrors] = useState<Errors>({});
+  const [backendError, setBackendError] = useState<string | null>(null);
   const [signup, { isLoading: isSignupLoading }] = useRegisterUserMutation();
 
 
@@ -65,6 +66,7 @@ export function SignupForm() {
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
 
     e.preventDefault();
+    setBackendError(null);
     const validation = signupSchema.safeParse(formData);
 
     if (!validation.success) {
@@ -78,9 +80,9 @@ export function SignupForm() {
       return;
     }
 
-    
+
     try {
-  
+
       makeApiCall(
         () =>
           signup({
@@ -92,16 +94,13 @@ export function SignupForm() {
         {
           afterSuccess: (signupResponse: any) => {
 
-            console.log("signupresponse", signupResponse);
-
-            console.log('Signup successful:', signupResponse.email);
-
             if (signupResponse.success) {
               router.push(`/verify-user?email=${signupResponse.email}`);
             }
           },
           afterError: (error: any) => {
-            console.error('Signup failed:', error.message);
+            setBackendError(error.data.message || "Signup failed");
+            console.log('Signup failed:', error);
           },
           toast: (message: any) => {
             console.log(message);
@@ -166,7 +165,7 @@ export function SignupForm() {
         />
         {errors.confirmPassword && <p className="text-red-500 text-sm">{errors.confirmPassword}</p>}
       </LabelInputContainer>
-
+      {backendError && <p className="text-red-500 text-sm">{backendError}</p>}
       <button
         className="bg-gradient-to-br relative group/btn from-black dark:from-zinc-900 dark:to-zinc-900 to-neutral-600 block dark:bg-zinc-800 w-full text-white rounded-md h-10 font-medium shadow-[0px_1px_0px_0px_#ffffff40_inset,0px_-1px_0px_0px_#ffffff40_inset] dark:shadow-[0px_1px_0px_0px_var(--zinc-800)_inset,0px_-1px_0px_0px_var(--zinc-800)_inset]"
         type="submit"
