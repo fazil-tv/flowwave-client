@@ -13,7 +13,7 @@ import {
 import { useVerifyOtpMutation } from "@/redux/user/userApi";
 import { makeApiCall } from "@/utils/makeApiCall";
 
-// Zod schema for OTP validation  
+
 const OtpSchema = z.object({
   otp: z.string()
     .min(6, { message: "OTP must be 6 digits" })
@@ -70,17 +70,11 @@ export function OtpVerifyForm() {
             localStorage.setItem('Token', verifyOtpResponse.token);
             localStorage.setItem('refreshToken', verifyOtpResponse.refreshToken);
             console.log('Tokens stored successfully');
-            
-            // if (verifyOtpResponse.success) {
-            //   console.log("Hello");
 
-            // } else {
-            //   setError(verifyOtpResponse.message);
-            // }
           },
           afterError: (error: any) => {
-            setError(error.message || "OTP Verification failed");
-            console.error('OTP Verification failed:', error.message);
+            const errorMessage = error?.data?.message || "OTP Verification failed. Please try again.";
+            setError(errorMessage);
           },
           toast: (message: any) => {
             console.log(message);
@@ -96,12 +90,12 @@ export function OtpVerifyForm() {
 
   return (
     <div className="space-y-4">
-          <p className="text-neutral-300 text-sm max-w-sm mt-2 dark:text-neutral-300 text-center pt-4">
-                        Enter the code generated from the link sent to
-                    </p>
-                    <p className="text-neutral-100  max-w-sm !mt-3 dark:text-neutral-200 text-center ">
-                        {userEmail}
-                    </p>
+      <p className="text-neutral-300 text-sm max-w-sm mt-2 dark:text-neutral-300 text-center pt-4">
+        Enter the code generated from the link sent to
+      </p>
+      <p className="text-neutral-100  max-w-sm !mt-3 dark:text-neutral-200 text-center ">
+        {userEmail}
+      </p>
       <div className="flex justify-center py-7">
         <InputOTP
           maxLength={6}
@@ -122,14 +116,14 @@ export function OtpVerifyForm() {
             ))}
           </InputOTPGroup>
         </InputOTP>
-     
+
       </div>
 
       {error && (
-          <div className="text-red-500 !mt-0 text-sm">
-            {error}
-          </div>
-        )}
+        <div className="text-red-500 !mt-0 text-sm">
+          {error}
+        </div>
+      )}
 
       <Button
         className="bg-custom-purple w-100 container "
@@ -139,7 +133,7 @@ export function OtpVerifyForm() {
         {isVerifyLoading ? "Verifying..." : "Verify OTP"}
       </Button>
 
-   
+
     </div>
   );
 }
