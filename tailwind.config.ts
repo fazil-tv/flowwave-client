@@ -38,7 +38,11 @@ const config: Config = {
   			foreground: 'hsl(var(--foreground))',
 			
   			'custom-purple': '#412C89',
+			  'custom-purple-light': '#7F60FF', 
 			  'custom-dark': '#0D0C1F',
+			  'custom-bg': '#1E1F2B',
+
+
   			card: {
   				DEFAULT: 'hsl(var(--card))',
   				foreground: 'hsl(var(--card-foreground))'

@@ -60,12 +60,11 @@ export const userApi = createApi({
 
 
     initiateProject: builder.mutation({
-      query: ({ projectData, serviceId }: { projectData: any; serviceId: string }) => ({
+      query: ({ projectData}: { projectData: any; }) => ({
         url: 'userapi/user/initiateproject',
         method: 'POST',
         body: {
-          ...projectData,
-          serviceId
+          ...projectData
         },
       }),
     }),
