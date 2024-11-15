@@ -14,17 +14,14 @@ const GoogleSignInButton = () => {
 
   const handleGoogleSubmit = useGoogleLogin({
 
-
     onSuccess: async (codeResponse:any) => {
-
-      console.log(codeResponse, "coderesponce");
 
       try {
         const res = await googleRegister(codeResponse).unwrap();
 
         if (res.success) {
 
-          router.push('/');
+          router.push('/dashboard');
         }
 
       } catch (err) {

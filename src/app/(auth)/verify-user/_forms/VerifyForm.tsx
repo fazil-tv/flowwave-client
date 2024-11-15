@@ -22,11 +22,14 @@ const OtpSchema = z.object({
 });
 
 export function OtpVerifyForm() {
+
+  const router = useRouter();
+
   const [otpValue, setOtpValue] = useState('');
-
-
-
   const [error, setError] = useState<string | null>(null);
+
+
+ 
   const [Verifyotp, { isLoading: isVerifyLoading }] = useVerifyOtpMutation();
 
   const searchParams = useSearchParams();
@@ -42,6 +45,8 @@ export function OtpVerifyForm() {
   }, [otpValue]);
 
   const handleOtpVerify = async () => {
+
+   
 
     const validationResult = OtpSchema.safeParse({ otp: otpValue });
 
@@ -66,10 +71,11 @@ export function OtpVerifyForm() {
           afterSuccess: (verifyOtpResponse: any) => {
             setError(null);
 
-            console.log('Verifyotpresponse:', verifyOtpResponse);
             localStorage.setItem('Token', verifyOtpResponse.token);
             localStorage.setItem('refreshToken', verifyOtpResponse.refreshToken);
-            console.log('Tokens stored successfully');
+  
+
+            router.push('/dashboard');
 
           },
           afterError: (error: any) => {
