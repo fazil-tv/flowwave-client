@@ -20,7 +20,7 @@ function Page() {
   };
 
   return (
-    <div>
+    <div >
      
       <div className=" flex justify-center">
       <Alert message={alert.message} type={alert.type} resetAlert={resetAlert}  />

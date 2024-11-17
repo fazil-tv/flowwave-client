@@ -95,6 +95,7 @@ export function SignupForm() {
           afterSuccess: (signupResponse: any) => {
 
             if (signupResponse.success) {
+              localStorage.setItem('Token', signupResponse.token);
               router.push(`/verify-user?email=${signupResponse.email}`);
             }
           },

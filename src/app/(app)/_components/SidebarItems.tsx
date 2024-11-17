@@ -52,11 +52,11 @@ export function SidebarItems() {
   const [open, setOpen] = useState(false);
   return (
    
-      <Sidebar open={open} setOpen={setOpen}>
-<SidebarBody className="justify-between gap-10 h-screen bg-[rgba(103,61,245,0.1)] shadow-lg shadow-[rgba(31,38,135,0.37)] backdrop-blur-[4.5px] rounded-xl border-[rgba(255,255,255,0.18)]">
+      <Sidebar open={open} setOpen={setOpen} >
 
+<SidebarBody className=" justify-between gap-10 h-screen bg-[rgba(103,61,245,0.1)] shadow-lg shadow-[rgba(31,38,135,0.37)] backdrop-blur-[50px] rounded-[16px] border-r-[0px] border-[rgba(255,255,255,0.18)]  bg-blend-luminosity">
           
-          <div className="flex flex-col flex-1 overflow-y-auto overflow-x-hidden">
+          <div className="flex gap-20 flex-col flex-1 overflow-y-auto overflow-x-hidden">
             {open ? <Logo /> : <LogoIcon />}
             <div className="mt-8 flex flex-col gap-2">
               {links.map((link, idx) => (
