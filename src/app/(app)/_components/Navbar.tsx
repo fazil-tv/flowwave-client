@@ -1,8 +1,8 @@
 'use client'
-
-import * as React from 'react'
+import React, { useState } from "react";
 import Link from 'next/link'
 import { Menu, X } from 'lucide-react'
+
 
 import { Button } from '@/components/ui/button'
 import {
@@ -10,9 +10,10 @@ import {
     SheetContent,
     SheetTrigger,
 } from '@/components/ui/sheet'
-import { useSelector } from 'react-redux'
-import { RootState } from '@/redux/store';
+
+import { useGlobalUser } from '@/hooks/useGlobalUser';
 import { Avatar } from './Avatar'
+
 
 const navItems = [
     { name: 'Home', href: '/' },
@@ -22,31 +23,28 @@ const navItems = [
 ]
 
 export default function Navbar() {
-    const [isOpen, setIsOpen] = React.useState(false)
-    const { refreshToken, Token } = useSelector((state: RootState) => state.user);
+    const [isOpen, setIsOpen] = useState(false);
+
+    const { user, isLoading } = useGlobalUser();
+
+    if (isLoading) {
+        return <div>Loading...</div>;
+    }
+
+
 
     return (
 
-
-        <nav className="pt-5">
+        <nav
+            className="py-5 border-b border-b-[hsla(0,0%,100%,0.2)] bg-gradient-radial from-[#6419ff] via-[#6419ff] to-transparent backdrop-blur-md"
+            
+        >
+            
             <div className=" px-4 sm:px-6 lg:px-8">
-                <div className="flex items-center justify-between h-16">
-                    <div className="hidden md:block ">
-                        <div className="ml-10 flex items-baseline space-x-4">
-                            {navItems.map((item) => (
-                                <Link
-                                    key={item.name}
-                                    href={item.href}
-                                    className="text-gray-600 hover:text-primary px-3 py-2 rounded-md text-sm font-medium"
-                                >
-                                    {item.name}
-                                </Link>
-                            ))}
-                        </div>
+                <div className="flex items-center justify-end h-16">
 
-                    </div>
-                    <div>
-                        < Avatar />
+                    <div className=''>
+                        <Avatar user={user.data || null} />
                     </div>
                     <div className="md:hidden">
                         <Sheet open={isOpen} onOpenChange={setIsOpen}>

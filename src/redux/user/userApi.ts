@@ -22,7 +22,6 @@ export const userApi = createApi({
         console.log("Query function called with credentials:", credentials);
         return {
           url: '/api/user/login',
-
           method: 'POST',
           body: credentials,
         };
@@ -60,7 +59,7 @@ export const userApi = createApi({
 
 
     initiateProject: builder.mutation({
-      query: ({ projectData}: { projectData: any; }) => ({
+      query: ({ projectData }: { projectData: any; }) => ({
         url: 'userapi/user/initiateproject',
         method: 'POST',
         body: {
@@ -85,10 +84,19 @@ export const userApi = createApi({
 
     getProjectById: builder.query({
       query: (id) => ({
-          url: `userapi/user/getproject/${id}`,
-          method: 'GET',
+        url: `userapi/user/getproject/${id}`,
+        method: 'GET',
       }),
-  }),
+    }),
+
+    getUserById: builder.query({
+      query: (userId) => ({
+        url: `userapi/user/${userId}`,
+        method: 'GET',
+        providesTags: ['User'],  
+        keepUnusedDataFor: 300, 
+      }),
+    }),
   }),
 });
 
@@ -103,5 +111,6 @@ export const {
   useInitiateProjectMutation,
   useGetProjectsQuery,
   useGetUserProjectsQuery,
-  useGetProjectByIdQuery
- } = userApi;
+  useGetProjectByIdQuery,
+  useGetUserByIdQuery
+} = userApi;

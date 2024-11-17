@@ -72,10 +72,7 @@ export function OtpVerifyForm() {
             setError(null);
 
             localStorage.setItem('Token', verifyOtpResponse.token);
-            localStorage.setItem('refreshToken', verifyOtpResponse.refreshToken);
-  
-
-            router.push('/dashboard');
+            router.push('/projects');
 
           },
           afterError: (error: any) => {

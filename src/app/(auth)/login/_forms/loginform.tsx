@@ -42,7 +42,7 @@ export function LoginForm() {
     setErrors({ ...errors, [e.target.name]: '' });
   };
 
-  
+
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setBackendError(null);
@@ -67,7 +67,8 @@ export function LoginForm() {
         {
           afterSuccess: (loginResponse: any) => {
             if (loginResponse.success) {
-              router.push(`/dashboard`);
+              localStorage.setItem('Token', loginResponse.user.token);
+              router.push(`/projects`);
             }
           },
           afterError: (error: any) => {

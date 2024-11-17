@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/shadinput"
 import { Label } from "@/components/ui/label"
 import { DatePickerWithRange } from '@/components/ui/DatePickerWithRange';
+import { useGlobalUser } from '@/hooks/useGlobalUser';
 import {
   Sheet,
   SheetClose,
@@ -15,11 +16,12 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet"
-import { useState, useEffect } from "react"
+import { useState, useEffect, useRef } from "react"
 import { useInitiateProjectMutation } from "@/redux/user/userApi"
 
 import * as z from "zod";
 import { ZodError } from "zod"
+
 
 const baseProjectSchema = z.object({
   ProjectName: z.string().min(1, "Project name is required"),
@@ -89,6 +91,13 @@ interface AddProjectProps {
 }
 
 export const AddProject: React.FC<AddProjectProps> = ({ showAlert }) => {
+
+  const { user, isLoading, isError } = useGlobalUser();
+
+  const sheetCloseRef = useRef<HTMLButtonElement>(null);
+
+
+
   const [initiateProject] = useInitiateProjectMutation();
   const [formData, setFormData] = useState({
     ProjectName: "",
@@ -181,7 +190,24 @@ export const AddProject: React.FC<AddProjectProps> = ({ showAlert }) => {
           afterSuccess: (response: any) => {
             setFormErrors(null);
             setDateRange({ from: undefined, to: undefined });
+
             showAlert('Project created successfully!', 'success');
+
+            if (sheetCloseRef.current) {
+              sheetCloseRef.current.click();
+            }
+
+            setFormData({
+              ProjectName: "",
+              ProjectLead: "",
+              Priority: "",
+              StartDate: "",
+              EndDate: "",
+              Description: "",
+            })
+
+
+
           },
 
           afterError: (error: any) => {
@@ -215,12 +241,15 @@ export const AddProject: React.FC<AddProjectProps> = ({ showAlert }) => {
     return startDateError || endDateError;
   };
 
+
   return (
 
     <Sheet>
 
       <SheetTrigger asChild>
-        <Button variant="outline" className="bg-custom-purple border-none text-white">
+        <Button
+          variant="outline"
+          className="!repeat-0 !bg-cover bg-gradient-radial  from-[#a881fe] to-[#6419ff]  [background-position:50%_50%] shadow-[0px_2px_12px_rgba(168,129,254,0.64),_inset_0px_1px_1px_rgba(168,129,254,1)] bg-gradient-to-r bg-transparent border-none text-white" >
           New Project
         </Button>
       </SheetTrigger>
@@ -228,12 +257,12 @@ export const AddProject: React.FC<AddProjectProps> = ({ showAlert }) => {
       <SheetContent
         side="right"
         className="w-full sm:max-w-xl md:max-w-3xl lg:max-w-4xl xl:max-w-5xl overflow-y-auto pt-0
-        justify-between gap-10 h-screen bg-[rgba(103,61,245,0.1)] shadow-lg shadow-[rgba(31,38,135,0.37)] 
+        justify-between gap-10 h-screen bg-[rgba(49,38,85,0.07)] shadow-lg shadow-[rgba(31,38,135,0.37)] 
         backdrop-blur-[7.5px] rounded-xl border-[rgba(255,255,255,0.18)]" >
 
         <div className="h-full px-10">
           <SheetHeader>
-            <SheetTitle className="text-xl font-bold text-white mt-16">New Project</SheetTitle>
+            <SheetTitle className="text-xl font-bold text-white mt-16">Ne w Project</SheetTitle>
             <SheetDescription className="text-custom-purple-light mt-2">
               Start everything from scratch
             </SheetDescription>
@@ -260,13 +289,29 @@ export const AddProject: React.FC<AddProjectProps> = ({ showAlert }) => {
                 <Label htmlFor="projectLead" className="text-white">
                   Project Lead
                 </Label>
-                <Input
+
+                <select
                   id="projectLead"
                   name="ProjectLead"
                   value={formData.ProjectLead}
                   onChange={handleChange}
-                  className="col-span-3"
-                />
+                  className="col-span-3 block w-full rounded-md bg-white px-3 py-2 text-gray-900 shadow-sm sm:text-sm"
+                >
+                  <option value="" disabled>
+                    Select Project Lead
+                  </option>
+
+                  {user?.data ? (
+                    <option value={user.data._id} className="flex items-center space-x-3">
+
+                      <h2 className="ml-2">{user.data.username}</h2>
+                    </option>
+                  ) : (
+                    <option disabled>Loading users...</option>
+                  )}
+                </select>
+
+
                 {getErrorMessage("ProjectLead") && (
                   <p className="col-span-4 text-red-500">{getErrorMessage("ProjectLead")}</p>
                 )}
@@ -286,8 +331,8 @@ export const AddProject: React.FC<AddProjectProps> = ({ showAlert }) => {
                     Select Priority
                   </option>
                   <option value="LOW">Low</option>
-                  <option value="Medium">Medium</option>
-                  <option value="High">High</option>
+                  <option value="MEDIUM">Medium</option>
+                  <option value="HIGH">High</option>
                 </select>
                 {getErrorMessage("Priority") && (
                   <p className="col-span-4 text-red-500">{getErrorMessage("Priority")}</p>
@@ -333,11 +378,12 @@ export const AddProject: React.FC<AddProjectProps> = ({ showAlert }) => {
 
             <SheetFooter className="mt-6">
               <SheetClose asChild>
-                <Button className="bg-white" type="button">
+                <Button className="bg-white" type="button" ref={sheetCloseRef}>
                   Cancel
                 </Button>
               </SheetClose>
-              <Button type="submit" className="bg-custom-purple border-none text-white">
+              <Button type="submit" 
+                   className="!repeat-0 !bg-cover bg-gradient-radial  from-[#a881fe] to-[#6419ff]  [background-position:50%_50%] shadow-[0px_2px_12px_rgba(168,129,254,0.64),_inset_0px_1px_1px_rgba(168,129,254,1)] bg-gradient-to-r bg-transparent border-none text-white" >
                 Save Project
               </Button>
             </SheetFooter>

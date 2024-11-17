@@ -22,12 +22,18 @@ export default function Layout({ children }: Props) {
     //     toast({ variant: "destructive", description: "You are not logged in" });
     // }
     return (
-        <main className="min-h-screen bg-gradient-to-tr from-[#100730] from-0% via-black via-30% to-[#100730] to-100% w-screen">
-            <div
+        <main className="min-h-screen bg-gradient-to-tr from-[#100730] from-0% via-black via-30% to-[#100730] to-100% w-screen"
+        
+        >
+            <div 
+            
                 className={cn(
                     " flex flex-col md:flex-row  w-screen flex-2  overflow-hidden",
-                    "h-screen"
+                    "h-screen",
+                    
                 )}
+
+                
             >
                 <SidebarItems />
                 <div className="flex-1 flex flex-col !min-w-7">
