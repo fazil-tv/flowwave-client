@@ -1,6 +1,6 @@
 "use client";
 import React, { useState } from "react";
-import { Sidebar,SidebarBody, SidebarLink,} from "@/components/ui/sidebar";
+import { Sidebar, SidebarBody, SidebarLink, } from "@/components/ui/sidebar";
 
 
 import {
@@ -47,45 +47,27 @@ export function SidebarItems() {
         <IconSettings className="text-custom-purple-light h-5 w-5 flex-shrink-0" />
       ),
     },
- 
+
   ];
   const [open, setOpen] = useState(false);
   return (
-   
-      <Sidebar open={open} setOpen={setOpen} >
 
-<SidebarBody className=" justify-between gap-10 h-screen bg-[rgba(103,61,245,0.1)] shadow-lg shadow-[rgba(31,38,135,0.37)] backdrop-blur-[50px] rounded-[16px] border-r-[0px] border-[rgba(255,255,255,0.18)]  bg-blend-luminosity">
+    <Sidebar open={open} setOpen={setOpen} >
+      <SidebarBody className="gap-10  flex justify-between    absolute p-0 !bg-none">
+        <div className="flex !h-full p-5 gap-20 overflow-y-auto overflow-x-hidden
+        bg-[rgba(103,61,245,0.1)] shadow-lg shadow-[rgba(31,38,135,0.37)] backdrop-blur-[50px] rounded-[16px] border-r-[0px] border-[rgba(255,255,255,0.18)]  bg-blend-luminosity">
           
-          <div className="flex gap-20 flex-col flex-1 overflow-y-auto overflow-x-hidden">
-            {open ? <Logo /> : <LogoIcon />}
-            <div className="mt-8 flex flex-col gap-2">
-              {links.map((link, idx) => (
-                <SidebarLink key={idx} link={link} />
-              ))}
-            </div>
+          <div className="mt-8 flex flex-col gap-2">
+            {links.map((link, idx) => (
+              <SidebarLink key={idx} link={link} />
+            ))}
           </div>
-          {/* <div>
-            <SidebarLink
-              link={{
-                label: "Manu Arora",
-                href: "#",
-                icon: (
-                  <Image
-                    src="https://assets.aceternity.com/manu.png"
-                    className="h-7 w-7 flex-shrink-0 rounded-full"
-                    width={50}
-                    height={50}
-                    alt="Avatar"
-                  />
-                ),
-              }}
-            />
-          </div> */}
-        </SidebarBody>
-      </Sidebar>
-      
+        </div>
+      </SidebarBody>
+    </Sidebar>
 
-  
+
+
   );
 }
 export const Logo = () => {

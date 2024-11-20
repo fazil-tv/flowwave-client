@@ -83,7 +83,7 @@ const config: Config = {
   		}
   	}
   },
-  plugins: [addVariablesForColors, require("tailwindcss-animate")],
+  plugins: [addVariablesForColors, require("tailwindcss-animate"),require('daisyui'),],
 };
 
 function addVariablesForColors({ addBase, theme }: any) {

@@ -26,19 +26,16 @@ export default function Layout({ children }: Props) {
         
         >
             <div 
-            
                 className={cn(
                     " flex flex-col md:flex-row  w-screen flex-2  overflow-hidden",
-                    "h-screen",
+                    "h-screen ",
                     
                 )}
-
-                
             >
                 <SidebarItems />
                 <div className="flex-1 flex flex-col !min-w-7">
                     <Navbar />
-                    <div className=" mt-6">
+                    <div className=" mt-6 px-52  sm:px-42 lg:px-52">
                         {children}
                     </div>
                 </div>
