@@ -68,19 +68,15 @@ export const userApi = createApi({
       }),
     }),
 
-    getProjects: builder.query({
-      query: () => ({
-        url: 'userapi/user/getprojects',
+    getUserProjects: builder.query({
+      query: () => {
+        return{
+        url: `userapi/user/getprojects`,
         method: 'GET',
-      }),
+        };
+      },
     }),
 
-    getUserProjects: builder.query({
-      query: () => ({
-        url: `userapi/user/getuserprojects`,
-        method: 'GET',
-      }),
-    }),
 
     getProjectById: builder.query({
       query: (id) => ({
@@ -88,6 +84,13 @@ export const userApi = createApi({
         method: 'GET',
       }),
     }),
+    updateProject: builder.mutation({  
+      query: ({ id, updates }) => ({  
+          url: `userapi/user/projects/${id}`,  
+          method: 'PATCH',  
+          body: updates,  
+      }),  
+    }),  
 
     getUserById: builder.query({
       query: (userId) => ({
@@ -109,8 +112,8 @@ export const {
   useGetAllServicesQuery,
   useGetServiceByIdQuery,
   useInitiateProjectMutation,
-  useGetProjectsQuery,
   useGetUserProjectsQuery,
   useGetProjectByIdQuery,
+  useUpdateProjectMutation,
   useGetUserByIdQuery
 } = userApi;

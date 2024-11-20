@@ -36,7 +36,7 @@ export default function Navbar() {
     return (
 
         <nav
-            className="py-5 border-b border-b-[hsla(0,0%,100%,0.2)] bg-gradient-radial from-[#6419ff] via-[#6419ff] to-transparent backdrop-blur-md"
+            className="py-2 border-b border-b-[hsla(0,0%,100%,0.2)] bg-gradient-radial from-[#6419ff] via-[#6419ff] to-transparent backdrop-blur-md"
             
         >
             

@@ -6,6 +6,7 @@ import { Input } from "@/components/ui/shadinput"
 import { Label } from "@/components/ui/label"
 import { DatePickerWithRange } from '@/components/ui/DatePickerWithRange';
 import { useGlobalUser } from '@/hooks/useGlobalUser';
+
 import {
   Sheet,
   SheetClose,
@@ -17,7 +18,7 @@ import {
   SheetTrigger,
 } from "@/components/ui/sheet"
 import { useState, useEffect, useRef } from "react"
-import { useInitiateProjectMutation } from "@/redux/user/userApi"
+import { useGetUserProjectsQuery, useInitiateProjectMutation } from "@/redux/user/userApi"
 
 import * as z from "zod";
 import { ZodError } from "zod"
@@ -97,6 +98,7 @@ export const AddProject: React.FC<AddProjectProps> = ({ showAlert }) => {
   const sheetCloseRef = useRef<HTMLButtonElement>(null);
 
 
+  const { refetch } = useGetUserProjectsQuery({});
 
   const [initiateProject] = useInitiateProjectMutation();
   const [formData, setFormData] = useState({
@@ -191,6 +193,7 @@ export const AddProject: React.FC<AddProjectProps> = ({ showAlert }) => {
             setFormErrors(null);
             setDateRange({ from: undefined, to: undefined });
 
+            refetch()
             showAlert('Project created successfully!', 'success');
 
             if (sheetCloseRef.current) {

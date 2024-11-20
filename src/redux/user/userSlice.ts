@@ -3,11 +3,9 @@ import { IUser } from "@/types/database";
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 type UserState = {
-
     currentUser: IUser | null;
     Token: string | null;
     refreshToken: string | null;
-
 };
 
 const initialState: UserState = {
