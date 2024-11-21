@@ -17,3 +17,28 @@ export interface IProject {
     lead: IUser;
     members: { info: IUser }[];
 }
+
+
+
+export enum TaskStatus { 
+    TO_DO = "TO_DO",
+    ON_PROGRESS = "ON_PROGRESS",
+    COMPLETED = "COMPLETED",
+}
+
+export interface ITask {
+    _id: string;
+    name: string;
+    description: string;
+    projectId: string;
+    priority: Number;
+    status: TaskStatus;
+    startDate: Date;
+    dueDate: Date;
+    module?: string;
+    assignee?: IUser;
+    reporter: IUser;
+    createdAt: Date;
+    updatedAt: Date;
+    deletedAt?: Date;
+}

@@ -100,8 +100,33 @@ export const userApi = createApi({
         keepUnusedDataFor: 300, 
       }),
     }),
+
+    initiateTask: builder.mutation({
+      query: ({ taskData, projectId }) => {    
+        return {
+          url: `taskapi/tasks`,
+          method: 'POST',
+          body: { ...taskData, projectId },
+          invalidatesTags: ['Task'],
+        };
+      },
+    }),
+
+    getTasksByUserId: builder.query({
+      query: (projectId) => ({
+        url: `/userapi/${projectId}`,
+        method: 'GET',
+      }),
+    }),
+    
+    
+    
+
+
+    
   }),
-});
+})
+
 
 
 export const {
@@ -115,5 +140,7 @@ export const {
   useGetUserProjectsQuery,
   useGetProjectByIdQuery,
   useUpdateProjectMutation,
-  useGetUserByIdQuery
+  useGetUserByIdQuery,
+  useInitiateTaskMutation,
+  useGetTasksByUserIdQuery
 } = userApi;
