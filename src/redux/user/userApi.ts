@@ -118,6 +118,14 @@ export const userApi = createApi({
         method: 'GET',
       }),
     }),
+
+    updateTask: builder.mutation({
+      query: ({ taskId, taskData, projectId }) => ({
+        url: `/taskapi/tasks/${projectId}`,
+        method: 'PUT',
+        body: {taskData,taskId}
+      }),
+    }),
     
     
     
@@ -142,5 +150,6 @@ export const {
   useUpdateProjectMutation,
   useGetUserByIdQuery,
   useInitiateTaskMutation,
-  useGetTasksByUserIdQuery
+  useGetTasksByUserIdQuery,
+  useUpdateTaskMutation,
 } = userApi;

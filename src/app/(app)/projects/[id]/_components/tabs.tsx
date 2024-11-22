@@ -12,6 +12,7 @@ export function TabsDemo() {
     { title: "Dashboard", value: "Dashboard", path: `/projects/${id}/dashboard` },
     { title: "Projects", value: "Projects", path: `/projects/${id}/project` },
     { title: "Tasks", value: "tasks", path: `/projects/${id}/tasks` },
+    { title: "Members", value: "Members", path: `/projects/${id}/members` },
     // { title: "Playground", value: "playground", path: "/tabs/playground" },
     // { title: "Content", value: "content", path: "/tabs/content" },
     // { title: "Random", value: "random", path: "/tabs/random" },
