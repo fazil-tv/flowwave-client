@@ -2,13 +2,34 @@
 import { useGetTasksByUserIdQuery } from '@/redux/user/userApi';
 import { useParams } from 'next/navigation';
 import { Progress } from "@/components/ui/progress"
-import React from 'react';
-import { Edittask } from './edittask';
+import React, { useEffect, useState } from 'react';
+import { UpdateTask } from './updatetask';
+import { Button } from '@/components/ui/button';
 
-function TaskView() {
+interface TaskviewProps {
+    showAlert: (message: string, type: 'success' | 'error') => void;
+}
+
+    export const TaskView: React.FC<TaskviewProps> = ({ showAlert }) => {
+
     const { id } = useParams<{ id: string }>();
     const { data: taskData, isLoading, isError } = useGetTasksByUserIdQuery(id);
 
+    const [task, setTasks] = useState<any[]>([]);
+
+    useEffect(() => {
+        if (taskData && taskData.tasks) {
+            setTasks(taskData.tasks);
+        }
+    }, [taskData]);
+    
+    const handleTaskUpdate = (updatedTask: any) => {
+        setTasks((prevTasks) => 
+            prevTasks.map(task => 
+                task._id === updatedTask._id ? updatedTask : task
+            )
+        );
+    }
 
     if (isLoading) {
         return <div className="text-center">Loading...</div>;
@@ -47,10 +68,12 @@ function TaskView() {
                             <th>Prograss</th>
                             <th>Due Date</th>
                             <th></th>
+
+
                         </tr>
                     </thead>
                     <tbody className='py-5'>
-                        {taskData.tasks.map((task: any) => (
+                        {task.map((task: any) => (
                             <tr key={task._id}>
 
                                 <td>
@@ -111,7 +134,7 @@ function TaskView() {
                                     <button className="btn btn-ghost btn-xs">Details</button>
                                 </th>
                                 <th>
-                                  <Edittask/>
+                                  <UpdateTask task={task}  trigger={<Button>Button</Button>}   onTaskUpdate={handleTaskUpdate} showAlert={showAlert} />
                                 </th>
                             </tr>
                         ))}

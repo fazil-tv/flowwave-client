@@ -21,10 +21,14 @@ function page() {
     <div className='text-white'>
       <Alert message={alert.message} type={alert.type} resetAlert={resetAlert} />
       <div className="flex py-10 justify-end px-0 sm:px-0 lg:px-0">
+      {/* <div>
+          <h2>project name</h2>
+        </div> */}
         <AddTask showAlert={showAlert} />
+       
       </div>
       <div>
-        <Taskview />
+        <Taskview showAlert={showAlert} />
       </div>
     </div>
   )
