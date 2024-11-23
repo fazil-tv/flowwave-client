@@ -18,7 +18,7 @@ import {
   SheetTrigger,
 } from "@/components/ui/sheet"
 import { useState, useEffect, useRef, useMemo } from "react"
-import { useGetTasksByUserIdQuery, useUpdateTaskMutation } from "@/redux/user/userApi"
+import { useGetProjectByIdQuery, useGetTasksByUserIdQuery, useUpdateTaskMutation } from "@/redux/user/userApi"
 
 import * as z from "zod";
 import { ZodError } from "zod"
@@ -96,7 +96,13 @@ export const UpdateTask: React.FC<UpdateTaskProps> = ({ task, trigger, onTaskUpd
   const sheetCloseRef = useRef<HTMLButtonElement>(null);
   const { id } = useParams<{ id: string }>();
   const [updateTask] = useUpdateTaskMutation();
-  const { refetch } = useGetTasksByUserIdQuery(id)
+
+  const { refetch: refetchTasks } = useGetTasksByUserIdQuery(id);
+  const { refetch: refetchProject } = useGetProjectByIdQuery(id);
+
+  const refetchBoth = async () => {
+    await Promise.all([refetchTasks(), refetchProject()]);
+  };
 
   const [formData, setFormData] = useState({
     name: task.name,
@@ -112,7 +118,7 @@ export const UpdateTask: React.FC<UpdateTaskProps> = ({ task, trigger, onTaskUpd
 
 
 
-  const [originalTask] = useState({
+  const [originalTask,setOriginalTask] = useState({
     name: task.name,
     description: task.description,
     priority: task.priority,
@@ -246,15 +252,18 @@ export const UpdateTask: React.FC<UpdateTaskProps> = ({ task, trigger, onTaskUpd
           {
             afterSuccess: async (response: any) => {
 
-              await refetch();
 
-              if (onTaskUpdate) {
-                onTaskUpdate({ ...validatedData, _id: task._id });
-              }
-
+              refetchBoth()
               setFormErrors(null);
 
-              setFormData(originalTask);
+
+              const updatedTask = { ...formData, _id: task._id };
+              setFormData(updatedTask);
+              setOriginalTask(updatedTask); 
+
+              if (onTaskUpdate) {
+                onTaskUpdate(updatedTask);
+              }
 
               showAlert('Task updated successfully!', 'success');
 
@@ -417,7 +426,7 @@ export const UpdateTask: React.FC<UpdateTaskProps> = ({ task, trigger, onTaskUpd
                   <DatePickerWithRange
                     className="w-full"
                     onDateRangeChange={handleDateRangeChange}
-                  // initialDateRange={dateRange}
+                 
                   />
                   {getDateErrors() && (
                     <p className="text-red-500 mt-2">{getDateErrors()}</p>
@@ -450,7 +459,7 @@ export const UpdateTask: React.FC<UpdateTaskProps> = ({ task, trigger, onTaskUpd
                   className="col-span-3 block w-full rounded-md border border-gray-300 bg-white px-3 py-2 text-gray-900 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
                 >
 
-                  {/* <option value={user?.data?._id}>{user?.data?.username}</option> */}
+           
                   <option value={user?.data?._id}>{user?.data?.username}</option>
                 </select>
               </div>

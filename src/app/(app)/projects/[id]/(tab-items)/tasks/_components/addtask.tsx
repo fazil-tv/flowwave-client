@@ -105,8 +105,8 @@ export const AddTask: React.FC<AddTaskProps> = ({ showAlert, projectId }) => {
 
 
     const { id } = useParams<{ id: string }>();
-   
-   
+
+
 
     const [initiateTask] = useInitiateTaskMutation();
 
@@ -198,7 +198,15 @@ export const AddTask: React.FC<AddTaskProps> = ({ showAlert, projectId }) => {
         });
     };
 
-    const { refetch } = useGetTasksByUserIdQuery(id);
+
+
+    const { refetch: refetchTasks } = useGetTasksByUserIdQuery(id);
+    const { refetch: refetchProject } = useGetProjectByIdQuery(id);
+
+    const refetchBoth = async () => {
+        await Promise.all([refetchTasks(), refetchProject()]);
+    };
+
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
@@ -206,17 +214,17 @@ export const AddTask: React.FC<AddTaskProps> = ({ showAlert, projectId }) => {
         try {
             const validatedData = taskSchema.parse(formData);
 
-            
+
 
             makeApiCall(
-              
+
 
                 () =>
                     initiateTask({
-                      taskData: validatedData,
-                      projectId: id
+                        taskData: validatedData,
+                        projectId: id
                     }).unwrap(),
-                    
+
 
 
 
@@ -224,9 +232,9 @@ export const AddTask: React.FC<AddTaskProps> = ({ showAlert, projectId }) => {
                     afterSuccess: (response: any) => {
                         setFormErrors(null);
                         setDateRange({ from: undefined, to: undefined });
-                        refetch()
+                        refetchBoth();
                         showAlert('Task created successfully!', 'success');
-                       
+
 
                         if (sheetCloseRef.current) {
                             sheetCloseRef.current.click();
@@ -236,7 +244,7 @@ export const AddTask: React.FC<AddTaskProps> = ({ showAlert, projectId }) => {
                         setFormData({
                             name: "",
                             description: "",
-                            projectId: projectId || "", 
+                            projectId: projectId || "",
                             priority: "",
                             status: TaskStatus.TO_DO,
                             startDate: "",
