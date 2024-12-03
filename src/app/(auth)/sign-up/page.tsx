@@ -1,11 +1,11 @@
 import Container from '@/components/layout/Container'
 import React from 'react'
 import { SignupForm } from './_forms/SignUpForm'
+import Image from 'next/image'
 
 export default function page() {
     return (
-        <main className='bg-gradient-to-tr from-[#100730] from-0% via-black via-30% to-[#100730] to-100% h-fit'>
-            {/* <Container> */}
+        <div>
             <div className="grid min-h-screen place-items-center w-full">
                 <div className='max-w-md w-full mx-auto rounded-none md:rounded-2xl p-4 md:p-8 shadow-input '>
                     <h2 className="font-bold text-xl text-neutral-800 dark:text-neutral-200">
@@ -18,7 +18,8 @@ export default function page() {
                     <SignupForm />
                 </div>
             </div>
-            {/* </Container> */}
-        </main>
+           
+        </div>
+
     )
 }

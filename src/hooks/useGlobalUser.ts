@@ -7,10 +7,12 @@ import type { RootState } from '@/redux/store';
 export const useGlobalUser = () => {
     const { Token } = useSelector((state: RootState) => state.user);
 
+    
     const userId = useMemo(() => {
         if (Token) {
             try {
                 const decoded = decode(Token) as JwtPayload & { id?: string };
+           
                 return decoded.id || null;
             } catch (error) {
                 console.error('Token decoding error', error);
@@ -19,6 +21,7 @@ export const useGlobalUser = () => {
         }
         return null;
     }, [Token]);
+    
 
     const { 
         data: user, 
@@ -28,6 +31,9 @@ export const useGlobalUser = () => {
     } = useGetUserByIdQuery(userId ?? '', {
         skip: !userId,
     });
+
+    
+   
 
     return {
         user,

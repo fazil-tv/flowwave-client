@@ -126,6 +126,32 @@ export const userApi = createApi({
         body: {taskData,taskId}
       }),
     }),
+
+    inviteMember: builder.mutation({  
+      query: (formData) => ({  
+        url: 'memberapi/invite',  
+        method: 'POST',  
+        body: {formData}
+      }),  
+      // invalidatesTags: ['formData']  
+    }),  
+
+    acceptInvitation: builder.mutation({
+      query: (token) => ({
+        url: 'memberapi/accept-invitation',
+        method: 'POST',
+        body: { token }
+      }),
+    }),
+
+  getMembers: builder.query({
+    query: () => ({
+      url:'memberapi/members',
+      method: 'GET',
+    }),
+  }),
+
+
     
     
     
@@ -152,4 +178,8 @@ export const {
   useInitiateTaskMutation,
   useGetTasksByUserIdQuery,
   useUpdateTaskMutation,
+  useInviteMemberMutation,
+  useAcceptInvitationMutation,
+  useGetMembersQuery,
+
 } = userApi;

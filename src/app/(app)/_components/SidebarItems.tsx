@@ -11,11 +11,10 @@ import {
   IconFolder
 
 } from "@tabler/icons-react";
+
+
 import Link from "next/link";
 import { motion } from "framer-motion";
-import Image from "next/image";
-import Navbar from "./Navbar";
-
 
 export function SidebarItems() {
   const links = [
@@ -34,8 +33,8 @@ export function SidebarItems() {
       ),
     },
     {
-      label: "Profile",
-      href: "#",
+      label: "People",
+      href: "/people/people",
       icon: (
         <IconUserBolt className="text-custom-purple-light h-5 w-5 flex-shrink-0" />
       ),
@@ -53,11 +52,13 @@ export function SidebarItems() {
   return (
 
     <Sidebar open={open} setOpen={setOpen} >
-      <SidebarBody className="gap-10  flex justify-between    absolute p-0 !bg-none">
+      <SidebarBody className="gap-10  flex justify-between    absolute p-0 !bg-none ">
         <div className="flex !h-full p-5 gap-20 overflow-y-auto overflow-x-hidden
-        bg-[rgba(103,61,245,0.1)] shadow-lg shadow-[rgba(31,38,135,0.37)] backdrop-blur-[50px] rounded-[16px] border-r-[0px] border-[rgba(255,255,255,0.18)]  bg-blend-luminosity">
+        bg-[rgba(103,61,245,0.1)] backdrop-blur-[50px] rounded-[16px]  border-[rgba(255,255,255,0.18)]  bg-blend-lighten
+          shadow-[0px_2px_12px_rgba(168,129,254,0.64),_inset_0px_1px_1px_rgba(168,129,254,1)]   
+                              ">
           
-          <div className="mt-8 flex flex-col gap-2">
+          <div className="mt-8 flex flex-col justify-evenly  w-screen ">
             {links.map((link, idx) => (
               <SidebarLink key={idx} link={link} />
             ))}
