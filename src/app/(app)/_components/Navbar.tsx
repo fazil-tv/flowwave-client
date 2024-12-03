@@ -27,6 +27,10 @@ export default function Navbar() {
 
     const { user, isLoading } = useGlobalUser();
 
+    // if (!user || !user.data) {  
+    //     return <p>Loading user data...</p>; 
+    // }  
+
     if (isLoading) {
         return <div>Loading...</div>;
     }

@@ -8,7 +8,7 @@ function page() {
         message: "",
         type: null,
     });
-    
+
     const showAlert = (message: string, type: "success" | "error") => {
         setAlert({ message, type });
     };

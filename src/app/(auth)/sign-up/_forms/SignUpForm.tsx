@@ -4,10 +4,12 @@ import React, { ChangeEvent, useState } from 'react';
 import { z } from 'zod';
 import { cn } from "@/lib/utils";
 import { Label } from "@/components/ui/label";
-import { Input } from "@/components/ui/Input";
+import { AuthInput } from '@/components/ui/auth-input';
 import { useRegisterUserMutation } from '@/redux/user/userApi';
 import { useRouter } from "next/navigation";
 import { makeApiCall } from '@/utils/makeApiCall';
+import GoogleSignInButton from '../../_components/googlesignin';
+import Link from 'next/link';
 
 
 const signupSchema = z.object({
@@ -117,80 +119,96 @@ export function SignupForm() {
   };
 
   return (
-    <form className="my-8" onSubmit={handleSubmit}>
-      <div className="flex flex-col md:flex-row md:space-x-2 mb-4 w-full md:w-96">
-        <LabelInputContainer className="w-full">
-          <Label htmlFor="username">Username</Label>
-          <Input id="username" placeholder="Username" type="text" className="w-full"
-            name="username"
-            value={formData.username}
+    <div>
+
+
+      <form className="my-8" onSubmit={handleSubmit}>
+        <div className="flex flex-col md:flex-row md:space-x-2 mb-4 w-full md:w-96 ">
+          <LabelInputContainer className="w-full">
+            <Label
+              htmlFor="username"
+              className="!text-white !text-[12px] m-2 !block"
+            >
+              Username
+            </Label>
+
+
+            <AuthInput id="username" placeholder="Username" type="text" className="w-full"
+              name="username"
+              value={formData.username}
+              onChange={handleChange}
+            />
+
+            {errors.username && <p className="text-red-500 text-sm">{errors.username}</p>}
+          </LabelInputContainer>
+        </div>
+
+        <LabelInputContainer className="mb-4">
+          <Label htmlFor="email" className="!text-white !text-[12px] m-2 !block">Email Address</Label>
+          <AuthInput id="email" placeholder="abc@gmail.com" type="email"
+            name="email"
+            value={formData.email}
             onChange={handleChange}
           />
-
-          {errors.username && <p className="text-red-500 text-sm">{errors.username}</p>}
+          {errors.email && <p className="text-red-500 text-sm">{errors.email}</p>}
         </LabelInputContainer>
-      </div>
 
-      <LabelInputContainer className="mb-4">
-        <Label htmlFor="email">Email Address</Label>
-        <Input id="email" placeholder="abc@gmail.com" type="email"
-          name="email"
-          value={formData.email}
-          onChange={handleChange}
-        />
-        {errors.email && <p className="text-red-500 text-sm">{errors.email}</p>}
-      </LabelInputContainer>
+        <LabelInputContainer className="mb-8">
+          <Label htmlFor="password" className="!text-white !text-[12px] m-2 !block">password</Label>
+          <AuthInput
+            id="password"
+            name="password"
+            placeholder="••••••••"
+            type="password"
+            value={formData.password}
+            onChange={handleChange}
+          />
+          {errors.password && <p className="text-red-500 text-sm">{errors.password}</p>}
+        </LabelInputContainer>
+        <LabelInputContainer className="mb-8">
+          <Label htmlFor="confirmPassword" className="!text-white !text-[12px] m-2 !block">confirmPassword</Label>
+          <AuthInput
+            id="confirmPassword"
+            name="confirmPassword"
+            placeholder="••••••••"
+            type="password"
+            value={formData.confirmPassword}
+            onChange={handleChange}
 
-      <LabelInputContainer className="mb-8">
-        <Label htmlFor="password">password</Label>
-        <Input
-          id="password"
-          name="password"
-          placeholder="••••••••"
-          type="password"
-          value={formData.password}
-          onChange={handleChange}
-        />
-        {errors.password && <p className="text-red-500 text-sm">{errors.password}</p>}
-      </LabelInputContainer>
-      <LabelInputContainer className="mb-8">
-        <Label htmlFor="confirmPassword">confirmPassword</Label>
-        <Input
-          id="confirmPassword"
-          name="confirmPassword"
-          placeholder="••••••••"
-          type="password"
-          value={formData.confirmPassword}
-          onChange={handleChange}
-
-        />
-        {errors.confirmPassword && <p className="text-red-500 text-sm">{errors.confirmPassword}</p>}
-      </LabelInputContainer>
-      {backendError && <p className="text-red-500 text-sm">{backendError}</p>}
-      <button
-        className="bg-gradient-to-br relative group/btn from-black dark:from-zinc-900 dark:to-zinc-900 to-neutral-600 block dark:bg-zinc-800 w-full text-white rounded-md h-10 font-medium shadow-[0px_1px_0px_0px_#ffffff40_inset,0px_-1px_0px_0px_#ffffff40_inset] dark:shadow-[0px_1px_0px_0px_var(--zinc-800)_inset,0px_-1px_0px_0px_var(--zinc-800)_inset]"
-        type="submit"
-      >
-        Sign up &rarr;
-        <BottomGradient />
-      </button>
-
-      <div className="bg-gradient-to-r from-transparent via-neutral-300 dark:via-neutral-700 to-transparent my-8 h-[1px] w-full" />
-
-      <div className="flex flex-col space-y-4">
+          />
+          {errors.confirmPassword && <p className="text-red-500 text-sm">{errors.confirmPassword}</p>}
+        </LabelInputContainer>
+        {backendError && <p className="text-red-500 text-sm">{backendError}</p>}
         <button
-          className=" relative group/btn flex space-x-2 items-center justify-start px-4 w-full text-black rounded-md h-10 font-medium shadow-input bg-gray-50 dark:bg-zinc-900 dark:shadow-[0px_0px_1px_1px_var(--neutral-800)]"
+          className="bg-gradient-to-br relative w-full text-white rounded-md h-10 font-medium  !repeat-0 !bg-cover bg-gradient-radial from-[#a881fe] to-[#6419ff] [background-position:50%_50%] shadow-[0px_2px_12px_rgba(168,129,254,0.64),_inset_0px_1px_1px_rgba(168,129,254,1)] bg-gradient-to-r bg-transparent border-none text-white"
           type="submit"
         >
-          {/* <IconBrandGoogle className="h-4 w-4 text-neutral-800 dark:text-neutral-300" /> */}
-          <span className="text-neutral-700 dark:text-neutral-300 text-sm">
-            Google
-          </span>
+          Sign up &rarr;
           <BottomGradient />
         </button>
+      </form>
+      <div className="relative my-8 w-full ">
+          <div className="bg-gradient-to-r from-transparent via-neutral-300 dark:via-neutral-700 to-transparent h-[1px] w-full flex" />
+          <span className="absolute left-1/2 transform -translate-x-1/2 -top-3  dark:bg-zinc-900 px-2 text-white dark:text-white !bg-[#03020A]">
+            Or
+          </span>
+        </div>
+      <div className="flex flex-col space-y-4">
+      
+      
+          <span className="text-neutral-700 dark:text-neutral-300 text-sm">
+            <GoogleSignInButton />
+          </span>
+          <BottomGradient />
+     
 
       </div>
-    </form>
+
+    <div className='flex justify-center text-gray-500 mt-5 text-sm'>
+      <Link href={"/login"}>Already got an account? Sign in</Link>
+    </div>
+
+    </div>
   );
 }
 

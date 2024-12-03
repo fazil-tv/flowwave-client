@@ -14,7 +14,8 @@ export function Avatar({ user }: { user: any }) {
     <Sheet>
       <SheetTrigger asChild>
         <Button variant="outline" className="w-10 h-10 rounded-full flex items-center justify-center bg-black text-custom-purple-light border-custom-purple">
-          {user?.username?.charAt(0).toUpperCase() || "U"}
+        {user?.username ? user.username.charAt(0).toUpperCase() : "U"}
+
         </Button>
       </SheetTrigger>
       <SheetContent

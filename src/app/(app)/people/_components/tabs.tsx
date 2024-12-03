@@ -2,19 +2,17 @@
 
 import { useRouter, usePathname, useParams } from "next/navigation";
 
-export function SideBar() {
+export function Tabs() {
   const router = useRouter();
   const pathname = usePathname();
-  const { id } = useParams<{ id: string }>();
+
 
   const tabs = [
-
-    { title: "Dashboard", value: "Dashboard", path: `/projects/${id}/dashboard` },
-    { title: "Projects", value: "Projects", path: `/projects/${id}/project` },
-    { title: "Tasks", value: "tasks", path: `/projects/${id}/tasks` },
-    { title: "Members", value: "Members", path: `/projects/${id}/members` },
-
+    { title: "Peoples", value: "peoples", path: `/people/people` },
+    { title: "Teams", value: "teams", path: `/people/teams` },
   ];
+
+
 
   const handleTabClick = (path: string) => {
     router.push(path);

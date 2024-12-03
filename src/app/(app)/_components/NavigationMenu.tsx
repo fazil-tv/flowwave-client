@@ -16,7 +16,7 @@ export function NavigationItems() {
   const { id } = useParams<{ id: string }>();
   const pathname = usePathname();
 
-  // Improved isActive function
+
   const isActive = (href: string) => pathname.startsWith(href);
 
   console.log(id, "Dynamic ID");

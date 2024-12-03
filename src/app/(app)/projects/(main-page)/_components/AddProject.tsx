@@ -377,6 +377,7 @@ export const AddProject: React.FC<AddProjectProps> = ({ showAlert }) => {
                   <p className="col-span-4 text-red-500">{getErrorMessage("Description")}</p>
                 )}
               </div>
+
             </div>
 
             <SheetFooter className="mt-6">
@@ -385,15 +386,15 @@ export const AddProject: React.FC<AddProjectProps> = ({ showAlert }) => {
                   Cancel
                 </Button>
               </SheetClose>
-              <Button type="submit" 
-                   className="!repeat-0 !bg-cover bg-gradient-radial  from-[#a881fe] to-[#6419ff]  [background-position:50%_50%] shadow-[0px_2px_12px_rgba(168,129,254,0.64),_inset_0px_1px_1px_rgba(168,129,254,1)] bg-gradient-to-r bg-transparent border-none text-white" >
+              <Button type="submit"
+                className="!repeat-0 !bg-cover bg-gradient-radial  from-[#a881fe] to-[#6419ff]  [background-position:50%_50%] shadow-[0px_2px_12px_rgba(168,129,254,0.64),_inset_0px_1px_1px_rgba(168,129,254,1)] bg-gradient-to-r bg-transparent border-none text-white" >
                 Save Project
               </Button>
             </SheetFooter>
           </form>
         </div>
-      </SheetContent>
-    </Sheet>
+      </SheetContent >
+    </Sheet >
 
 
   );

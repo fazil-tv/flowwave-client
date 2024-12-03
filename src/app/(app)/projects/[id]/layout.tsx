@@ -1,5 +1,5 @@
 import { ReactNode } from "react";
-import { TabsDemo } from "./_components/tabs";
+import { SideBar } from "./_components/tabs";
 
 type Props = {
   children: ReactNode;
@@ -8,7 +8,7 @@ type Props = {
 export default function Layout({ children }: Props) {
   return (
     <main className="">
-      <TabsDemo />
+      <SideBar />
      {children}
     </main>
   );
