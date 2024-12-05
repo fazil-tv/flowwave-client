@@ -22,11 +22,13 @@ import { useGetUserProjectsQuery, useInitiateProjectMutation } from "@/redux/use
 
 import * as z from "zod";
 import { ZodError } from "zod"
+import { useGetUserTeamsQuery } from '@/redux/user/teamApi';
 
 
 const baseProjectSchema = z.object({
   ProjectName: z.string().min(1, "Project name is required"),
   ProjectLead: z.string().min(1, "Project lead is required"),
+  Team: z.string().optional(),
   Priority: z.enum(["LOW", "Medium", "High"], {
     errorMap: () => ({ message: "Priority must be Low, Medium, or High" })
   }),
@@ -95,6 +97,14 @@ export const AddProject: React.FC<AddProjectProps> = ({ showAlert }) => {
 
   const { user, isLoading, isError } = useGlobalUser();
 
+
+  const userId = user?.data?._id;
+
+  const { data: teams, isLoading: isTeamsLoading } = useGetUserTeamsQuery(userId, {
+    skip: !userId,
+  });
+
+
   const sheetCloseRef = useRef<HTMLButtonElement>(null);
 
 
@@ -104,6 +114,7 @@ export const AddProject: React.FC<AddProjectProps> = ({ showAlert }) => {
   const [formData, setFormData] = useState({
     ProjectName: "",
     ProjectLead: "",
+    Team: "",
     Priority: "",
     StartDate: "",
     EndDate: "",
@@ -186,6 +197,7 @@ export const AddProject: React.FC<AddProjectProps> = ({ showAlert }) => {
     try {
       const validatedData = projectSchema.parse(formData);
 
+
       makeApiCall(
         () => initiateProject({ projectData: validatedData }).unwrap(),
         {
@@ -203,6 +215,7 @@ export const AddProject: React.FC<AddProjectProps> = ({ showAlert }) => {
             setFormData({
               ProjectName: "",
               ProjectLead: "",
+              Team: "",
               Priority: "",
               StartDate: "",
               EndDate: "",
@@ -265,7 +278,7 @@ export const AddProject: React.FC<AddProjectProps> = ({ showAlert }) => {
 
         <div className="h-full px-10">
           <SheetHeader>
-            <SheetTitle className="text-xl font-bold text-white mt-16">Ne w Project</SheetTitle>
+            <SheetTitle className="text-xl font-bold text-white mt-16">New Project</SheetTitle>
             <SheetDescription className="text-custom-purple-light mt-2">
               Start everything from scratch
             </SheetDescription>
@@ -319,6 +332,51 @@ export const AddProject: React.FC<AddProjectProps> = ({ showAlert }) => {
                   <p className="col-span-4 text-red-500">{getErrorMessage("ProjectLead")}</p>
                 )}
               </div>
+
+
+
+              <div className="grid grid-cols-4 items-center gap-4">
+                <Label htmlFor="team" className="text-white">
+                  Team
+                </Label>
+                <select
+                  id="team"
+                  name="Team"
+                  value={formData.Team}
+                  onChange={handleChange}
+                  className="col-span-3 block w-full rounded-md bg-white px-3 py-2 text-gray-900 shadow-sm sm:text-sm"
+                >
+                  <option value="" disabled>
+                    Select Team
+                  </option>
+                  {isTeamsLoading ? (
+                    <option disabled>Loading teams...</option>
+                  ) : (
+                    <>
+                      {teams?.data?.length > 0 ? (
+                        teams.data.map((team) => (
+                          <option key={team._id} value={team._id}>
+                            {team.TeamName}
+                          </option>
+                        ))
+                      ) : (
+                        <option value="create-team" disabled>
+                          No teams have been created.
+                        </option>
+                      )}
+                    </>
+                  )}
+                </select>
+                {getErrorMessage("Team") && (
+                  <p className="col-span-4 text-red-500">
+                    {getErrorMessage("Team")}
+                  </p>
+                )}
+              </div>
+
+
+
+
               <div className="grid grid-cols-4 items-center gap-4">
                 <Label htmlFor="priority" className="text-white">
                   Priority
