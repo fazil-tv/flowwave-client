@@ -129,7 +129,7 @@ export  const SingleProjectView: React.FC<SingleProjectView> = ({ showAlert }) =
     }
 
     return (
-        <Card className="w-[100%] h-[600px] mt-16 p-5 bg-[rgba(49,38,85,0.07)] shadow-lg shadow-[rgba(31,38,135,0.37)] text-white backdrop-blur-[7.5px] rounded-xl border-[rgba(255,255,255,0.18)]">
+        <Card className="w-[90%] h-[600px] mt-5 p-5 bg-[rgba(49,38,85,0.07)] shadow-lg shadow-[rgba(31,38,135,0.37)] text-white backdrop-blur-[7.5px] rounded-xl border-[rgba(255,255,255,0.18)] ">
             <CardHeader className="flex flex-row items-center justify-between space-y-0">
                 <div className="space-y-1 font-bold">
                     {isEditing ? (

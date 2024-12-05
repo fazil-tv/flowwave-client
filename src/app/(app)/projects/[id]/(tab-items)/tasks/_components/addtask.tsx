@@ -214,8 +214,6 @@ export const AddTask: React.FC<AddTaskProps> = ({ showAlert, projectId }) => {
         try {
             const validatedData = taskSchema.parse(formData);
 
-
-
             makeApiCall(
 
 
@@ -224,9 +222,6 @@ export const AddTask: React.FC<AddTaskProps> = ({ showAlert, projectId }) => {
                         taskData: validatedData,
                         projectId: id
                     }).unwrap(),
-
-
-
 
                 {
                     afterSuccess: (response: any) => {

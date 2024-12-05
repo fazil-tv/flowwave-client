@@ -307,12 +307,8 @@ export const UpdateTask: React.FC<UpdateTaskProps> = ({ task, trigger, onTaskUpd
     <Sheet>
       <SheetTrigger asChild>
         {trigger || (
-          <Button
-            variant="outline"
-            className="!repeat-0 !bg-cover bg-gradient-radial from-[#a881fe] to-[#6419ff] [background-position:50%_50%] shadow-[0px_2px_12px_rgba(168,129,254,0.64),_inset_0px_1px_1px_rgba(168,129,254,1)] bg-gradient-to-r bg-transparent border-none text-white"
-          >
-            Update Task
-          </Button>
+        
+          <button className="btn btn-ghost btn-xs">Update Task</button>
         )}
       </SheetTrigger>
 
@@ -332,7 +328,6 @@ export const UpdateTask: React.FC<UpdateTaskProps> = ({ task, trigger, onTaskUpd
 
           <form onSubmit={handleSubmit}>
             <div className="grid gap-6 py-10 mt-10">
-              {/* ... All your existing form fields ... */}
               <div className="grid grid-cols-4 items-center gap-4">
                 <Label htmlFor="name" className="text-white">
                   Task Name

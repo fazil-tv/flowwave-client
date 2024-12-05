@@ -6,11 +6,18 @@ import React, { useEffect, useState } from 'react';
 import { UpdateTask } from './updatetask';
 import { Button } from '@/components/ui/button';
 
+import {
+    HoverCard,
+    HoverCardContent,
+    HoverCardTrigger,
+} from "@/components/ui/hover-card"
+
+
 interface TaskviewProps {
     showAlert: (message: string, type: 'success' | 'error') => void;
 }
 
-    export const TaskView: React.FC<TaskviewProps> = ({ showAlert }) => {
+export const TaskView: React.FC<TaskviewProps> = ({ showAlert }) => {
 
     const { id } = useParams<{ id: string }>();
     const { data: taskData, isLoading, isError } = useGetTasksByUserIdQuery(id);
@@ -22,10 +29,10 @@ interface TaskviewProps {
             setTasks(taskData.tasks);
         }
     }, [taskData]);
-    
+
     const handleTaskUpdate = (updatedTask: any) => {
-        setTasks((prevTasks) => 
-            prevTasks.map(task => 
+        setTasks((prevTasks) =>
+            prevTasks.map(task =>
                 task._id === updatedTask._id ? updatedTask : task
             )
         );
@@ -53,13 +60,13 @@ interface TaskviewProps {
         }
     }
     return (
-        <div className='bg-[rgba(49,38,85,0.07)] border-2 shadow-lg shadow-[rgba(74,77,122,0.37)] text-white backdrop-blur-[7.5px] bg-custom-dark rounded-xl border-[rgba(255,255,255,0.18)]'>
+        <div className=''>
             <div className="overflow-x-auto p-5">
                 <table className="table p-5">
                     <thead>
                         <tr>
 
-                            <th>Id</th>
+                            <th>Task Id</th>
                             <th>Task Name</th>
                             <th className='w-32'>Task Discription</th>
                             <th>Task Assignee</th>
@@ -83,7 +90,15 @@ interface TaskviewProps {
                                     <div className="">{task.name}</div>
                                 </td>
                                 <td className="max-w-4 overflow-hidden text-ellipsis whitespace-nowrap">
-                                    <div>{task.description}</div>
+                                    <div>
+                                        <HoverCard >
+                                            <HoverCardTrigger >    {task.description.split(' ')[0]}....</HoverCardTrigger>
+                                            <HoverCardContent className='w-fit text-wrap backdrop-blur-[10.5px] bg-[rgba(49,38,85,0.07)] !border-none text-white text-sm'>
+                                                {task.description}
+                                            </HoverCardContent>
+                                        </HoverCard>
+
+                                    </div>
                                 </td>
                                 <td>
                                     <div className="!my-5">
@@ -134,7 +149,7 @@ interface TaskviewProps {
                                     <button className="btn btn-ghost btn-xs">Details</button>
                                 </th>
                                 <th>
-                                  <UpdateTask task={task}  trigger={<Button>Button</Button>}   onTaskUpdate={handleTaskUpdate} showAlert={showAlert} />
+                                    <UpdateTask task={task} onTaskUpdate={handleTaskUpdate} showAlert={showAlert} />
                                 </th>
                             </tr>
                         ))}
