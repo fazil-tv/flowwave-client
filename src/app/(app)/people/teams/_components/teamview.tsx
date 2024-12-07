@@ -18,7 +18,7 @@ const TeamCard: React.FC<TeamCardProps> = () => {
         skip: !userId || isUserLoading,
     });
 
-    const formatDate = (dateString) => {
+    const formatDate = (dateString:any) => {
         const date = new Date(dateString);
         return date.toLocaleDateString('en-US', {
             year: 'numeric',
@@ -38,8 +38,8 @@ const TeamCard: React.FC<TeamCardProps> = () => {
 
     return (
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
-            {teams?.data.map((team) => {
-                const teamMembers = team.memberIds.map((member) => ({
+            {teams?.data.map((team:any) => {
+                const teamMembers = team.memberIds.map((member:any) => ({
                     id: member._id,
                     name: member.name,
                     email: member.email,

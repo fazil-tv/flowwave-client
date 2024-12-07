@@ -180,7 +180,7 @@ function InviteUser() {
             </Button>
 
             {isOpen && (
-                <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-60 z-50 text-white">
+                <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-60 z-50 text-white  ">
                     <div className="p-6 w-11/12 max-w-2xl relative bg-[rgba(103,61,245,0.1)] backdrop-blur-[50px] rounded-[16px] border-[rgba(255,255,255,0.18)] bg-blend-lighten shadow-[0px_2px_12px_rgba(168,129,254,0.64),_inset_0px_1px_1px_rgba(168,129,254,1)]">
                         <h3 className="font-bold text-lg mb-4">Invite Users</h3>
 

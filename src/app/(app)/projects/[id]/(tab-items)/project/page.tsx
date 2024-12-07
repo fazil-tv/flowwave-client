@@ -17,11 +17,13 @@ function page() {
     };
     return (
         <>
+        <div className="  bg-[url('/images/invite-bg.svg')]">
             <div className=" flex justify-center">
                 <Alert message={alert.message} type={alert.type} resetAlert={resetAlert} />
             </div>
             <div className=" flex justify-center">
-            <SingleProjectView showAlert={showAlert} />
+                <SingleProjectView showAlert={showAlert} />
+            </div>
             </div>
         </>
     )
