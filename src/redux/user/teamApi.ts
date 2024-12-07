@@ -14,6 +14,8 @@ interface TeamResponse {
 }
 
 interface Team {
+    [x: string]: any;
+    _id: any;
     id: string;
     TeamName: string;
     TeamLead:string;
