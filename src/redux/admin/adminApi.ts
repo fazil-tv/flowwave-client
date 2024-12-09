@@ -21,7 +21,7 @@ export const adminApi = createApi({
 
     addService: builder.mutation({
       query: (credentials) => {
-        console.log('Credentials:', credentials);
+
         return {
           url: '/adminapi/admin/addservice',
           method: 'POST',

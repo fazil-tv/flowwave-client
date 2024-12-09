@@ -70,6 +70,7 @@ export const SingleProjectView: React.FC<SingleProjectView> = ({ showAlert }) =>
     const { id } = useParams<{ id: string }>();
     const { data: projectData, error, isLoading } = useGetProjectByIdQuery(id);
 
+
     const { user, isLoading: isUserLoading } = useGlobalUser();
     const userId = user?.data?._id;
     const {
@@ -155,7 +156,6 @@ export const SingleProjectView: React.FC<SingleProjectView> = ({ showAlert }) =>
                 };
             }
             
-          
             const projectTeam: ProjectTeam = {
                 _id: selectedTeam._id,
                 TeamName: selectedTeam.TeamName,

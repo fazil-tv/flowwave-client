@@ -6,6 +6,7 @@ import { Input } from "@/components/ui/shadinput"
 import { Label } from "@/components/ui/label"
 import { DatePickerWithRange } from '@/components/ui/DatePickerWithRange';
 import { useGlobalUser } from '@/hooks/useGlobalUser';
+import Select from 'react-select';
 
 import {
   Sheet,
@@ -28,7 +29,7 @@ import { useGetUserTeamsQuery } from '@/redux/user/teamApi';
 const baseProjectSchema = z.object({
   ProjectName: z.string().min(1, "Project name is required"),
   ProjectLead: z.string().min(1, "Project lead is required"),
-  Team: z.string().optional(),
+  Team: z.array(z.string()).optional(),
   Priority: z.enum(["LOW", "Medium", "High"], {
     errorMap: () => ({ message: "Priority must be Low, Medium, or High" })
   }),
@@ -114,7 +115,7 @@ export const AddProject: React.FC<AddProjectProps> = ({ showAlert }) => {
   const [formData, setFormData] = useState({
     ProjectName: "",
     ProjectLead: "",
-    Team: "",
+    Team: [],
     Priority: "",
     StartDate: "",
     EndDate: "",
@@ -215,7 +216,7 @@ export const AddProject: React.FC<AddProjectProps> = ({ showAlert }) => {
             setFormData({
               ProjectName: "",
               ProjectLead: "",
-              Team: "",
+              Team: [],
               Priority: "",
               StartDate: "",
               EndDate: "",
@@ -256,6 +257,12 @@ export const AddProject: React.FC<AddProjectProps> = ({ showAlert }) => {
     const endDateError = getErrorMessage('EndDate');
     return startDateError || endDateError;
   };
+
+  const teamOptions = teams?.data?.map(team => ({
+    value: team._id,
+    label: team.TeamName
+  })) || [];
+  
 
 
   return (
@@ -337,42 +344,39 @@ export const AddProject: React.FC<AddProjectProps> = ({ showAlert }) => {
 
               <div className="grid grid-cols-4 items-center gap-4">
                 <Label htmlFor="team" className="text-white">
-                  Team
+                  Teams
                 </Label>
-                <select
+                <Select
                   id="team"
                   name="Team"
-                  value={formData.Team}
-                  onChange={handleChange}
-                  className="col-span-3 block w-full rounded-md bg-white px-3 py-2 text-gray-900 shadow-sm sm:text-sm"
-                >
-                  <option value="" disabled>
-                    Select Team
-                  </option>
-                  {isTeamsLoading ? (
-                    <option disabled>Loading teams...</option>
-                  ) : (
-                    <>
-                      {teams?.data?.length > 0 ? (
-                        teams.data.map((team) => (
-                          <option key={team._id} value={team._id}>
-                            {team.TeamName}
-                          </option>
-                        ))
-                      ) : (
-                        <option value="create-team" disabled>
-                          No teams have been created.
-                        </option>
-                      )}
-                    </>
+                  isMulti
+                  options={teamOptions}
+                  value={formData.Team.map(teamId =>
+                    teamOptions.find(option => option.value === teamId)
                   )}
-                </select>
+                  onChange={(selectedOptions) => {
+                    const selectedTeamIds = selectedOptions
+                      ? selectedOptions.map(option => option.value)
+                      : [];
+
+                    setFormData(prev => ({
+                      ...prev,
+                      Team: selectedTeamIds
+                    }));
+                  }}
+                  className="col-span-3"
+                  classNamePrefix="select"
+                />
                 {getErrorMessage("Team") && (
                   <p className="col-span-4 text-red-500">
                     {getErrorMessage("Team")}
                   </p>
                 )}
               </div>
+
+
+
+
 
 
 

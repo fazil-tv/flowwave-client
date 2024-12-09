@@ -12,7 +12,7 @@ import {
 } from '@/components/ui/sheet'
 
 import { useGlobalUser } from '@/hooks/useGlobalUser';
-import { Avatar } from './Avatar'
+import { UserInfo } from './UserInfo'
 
 
 const navItems = [
@@ -45,7 +45,7 @@ export default function Navbar() {
                 <div className="flex items-center justify-end h-16">
 
                     <div className=''>
-                        <Avatar user={user.data || null} />
+                        <UserInfo user={user.data || null} />
                     </div>
                     <div className="md:hidden">
                         <Sheet open={isOpen} onOpenChange={setIsOpen}>

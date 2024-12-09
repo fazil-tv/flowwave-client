@@ -71,7 +71,7 @@ function InviteUser() {
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
         const { name, value } = e.target;
         setFormData((prev) => ({ ...prev, [name]: value }));
-        // Clear specific field validation error when user starts typing  
+      
         setValidationErrors((prev) => ({ ...prev, [name]: undefined }));
     };
 
