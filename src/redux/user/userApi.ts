@@ -70,9 +70,9 @@ export const userApi = createApi({
 
     getUserProjects: builder.query({
       query: () => {
-        return{
-        url: `userapi/user/getprojects`,
-        method: 'GET',
+        return {
+          url: `userapi/user/getprojects`,
+          method: 'GET',
         };
       },
     }),
@@ -84,25 +84,25 @@ export const userApi = createApi({
         method: 'GET',
       }),
     }),
-    updateProject: builder.mutation({  
-      query: ({ id, updates }) => ({  
-          url: `userapi/user/projects/${id}`,  
-          method: 'PATCH',  
-          body: updates,  
-      }),  
-    }),  
+    updateProject: builder.mutation({
+      query: ({ id, updates }) => ({
+        url: `userapi/user/projects/${id}`,
+        method: 'PATCH',
+        body: updates,
+      }),
+    }),
 
     getUserById: builder.query({
       query: (userId) => ({
         url: `userapi/user/${userId}`,
         method: 'GET',
-        providesTags: ['User'],  
-        keepUnusedDataFor: 300, 
+        providesTags: ['User'],
+        keepUnusedDataFor: 300,
       }),
     }),
 
     initiateTask: builder.mutation({
-      query: ({ taskData, projectId }) => {    
+      query: ({ taskData, projectId }) => {
         return {
           url: `taskapi/tasks`,
           method: 'POST',
@@ -123,18 +123,18 @@ export const userApi = createApi({
       query: ({ taskId, taskData, projectId }) => ({
         url: `/taskapi/tasks/${projectId}`,
         method: 'PUT',
-        body: {taskData,taskId}
+        body: { taskData, taskId }
       }),
     }),
 
-    inviteMember: builder.mutation({  
-      query: (formData) => ({  
-        url: 'memberapi/invite',  
-        method: 'POST',  
-        body: {formData}
-      }),  
+    inviteMember: builder.mutation({
+      query: (formData) => ({
+        url: 'memberapi/invite',
+        method: 'POST',
+        body: { formData }
+      }),
       // invalidatesTags: ['formData']  
-    }),  
+    }),
 
     acceptInvitation: builder.mutation({
       query: (token) => ({
@@ -144,20 +144,29 @@ export const userApi = createApi({
       }),
     }),
 
-  getMembers: builder.query({
-    query: () => ({
-      url:'memberapi/members',
-      method: 'GET',
+    getMembers: builder.query({
+      query: () => ({
+        url: 'memberapi/members',
+        method: 'GET',
+      }),
     }),
-  }),
+
+    getProjectTeamMembers: builder.query({
+      query: (projectId) => ({
+        url: `userapi/team-members/${projectId}`,
+        method: 'GET',
+      }),
+    }),
+
+    uploadProfileImage: builder.mutation<string, FormData>({
+      query: (formData) => ({
+        url: 'userapi/profile-image',
+        method: 'POST',
+        body: formData,
+      }),
+    }),
 
 
-    
-    
-    
-
-
-    
   }),
 })
 
@@ -181,5 +190,7 @@ export const {
   useInviteMemberMutation,
   useAcceptInvitationMutation,
   useGetMembersQuery,
+  useGetProjectTeamMembersQuery,
+  useUploadProfileImageMutation
 
 } = userApi;
