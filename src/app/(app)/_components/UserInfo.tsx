@@ -1,7 +1,7 @@
 "use client"
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
-import { Camera, Upload, Trash2 ,Save} from 'lucide-react'
+import { Camera, Upload, Trash2, Save } from 'lucide-react'
 import {
   Sheet,
   SheetClose,
@@ -15,9 +15,8 @@ import { useRef, useState } from "react";
 import { useUploadProfileImageMutation } from "@/redux/user/userApi";
 import { makeApiCall } from "@/utils/makeApiCall";
 import { TaskSpinner } from "@/components/animated/spinner";
-import EditUserInfo from "./EditUserInfo";
 
-export function UserInfo({ user }: { user: any }) {
+export function UserInfo({ user, refetch }: { user: any; refetch: () => void }) {
 
 
   const [isHovered, setIsHovered] = useState(false)
@@ -45,20 +44,21 @@ export function UserInfo({ user }: { user: any }) {
     if (file) {
       const formData = new FormData();
       formData.append('profileImage', file);
-  
+
       await makeApiCall(
         () => uploadProfileImage(formData).unwrap(),
         {
-        
+
           afterSuccess: () => {
             setPreviewUrl(null);
             setIsHovered(false);
             setFile(null);
-         
-           
+            refetch();
+
+
           },
-          afterError: (error:any) => {
-        
+          afterError: (error: any) => {
+
             console.error(error);
           }
         }
@@ -79,12 +79,22 @@ export function UserInfo({ user }: { user: any }) {
 
   return (
     <Sheet>
-      <SheetTrigger asChild>
-        <Button variant="outline" className="w-10 h-10 rounded-full flex items-center justify-center bg-black text-custom-purple-light border-custom-purple">
-          {user?.username ? user.username.charAt(0).toUpperCase() : "U"}
+   <SheetTrigger asChild>
+    <Button variant="outline" className="p-0 w-12 h-12 rounded-full  items-center justify-center text-custom-purple-light border-custom-purple">
+        {user?.profileImg ? (
+            <img 
+                src={user?.profileImg} 
+                alt={user.username || "User Avatar"} 
+                className="w-full h-full rounded-full object-cover" 
+            />
+        ) : (
+            <span className="text-lg">
+                {user?.username ? user.username.charAt(0).toUpperCase() : "U"}
+            </span>
+        )}
+    </Button>
+</SheetTrigger>
 
-        </Button>
-      </SheetTrigger>
       <SheetContent
         side="right"
         className="w-full !h-screen sm:max-w-xl md:max-w-3xl lg:max-w-3xl xl:max-w-3xl overflow-y-auto pt-0  px-0
@@ -119,8 +129,9 @@ export function UserInfo({ user }: { user: any }) {
             >
               <Avatar className="w-full h-full ">
                 <AvatarImage
-                  src={previewUrl || user?.profileImg || "https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.webp"}
+                  src={previewUrl || user?.profileImg || "/images/user-img.jpeg"}
                   alt="User Avatar"
+                  className="bg-cover"
                 />
                 <AvatarFallback>JD</AvatarFallback>
               </Avatar>
@@ -169,13 +180,13 @@ export function UserInfo({ user }: { user: any }) {
                 className="rounded-full relative bottom-10 left-[115px] bg-custom-purple"
                 onClick={handleUpload}
               >
-               
-                {isLoading ?     <TaskSpinner />  :  <Save className="h-4 w-4 text-white " />}
+
+                {isLoading ? <TaskSpinner /> : <Save className="h-4 w-4 text-white " />}
               </Button>
             )}
 
 
-      
+
 
             <div className=" items-start mb-4 mt-5">
               <div>
@@ -184,7 +195,6 @@ export function UserInfo({ user }: { user: any }) {
                 <p className="text-white text-sm mt-1"> Flowwave User ID : <span className="text-white font-bold">  USER{user?._id ? user._id.slice(-8) : "N/A"} </span></p>
               </div>
               <div className="mt-3">
-                <EditUserInfo user={user} />
                 <p className="text-sm text-red-500 cursor-pointer" >Edit your profile</p>
               </div>
 

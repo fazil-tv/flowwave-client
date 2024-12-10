@@ -5,7 +5,6 @@ import { useRouter, useSearchParams } from 'next/navigation';
 import { Card, CardHeader, CardTitle, CardContent, CardFooter } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { useAcceptInvitationMutation } from '@/redux/user/userApi';
-// import { toast } from 'sonner'; 
 
 export default function AcceptInvitation() {
   const [acceptInvitation, { isLoading, isError, isSuccess }] = useAcceptInvitationMutation();
@@ -17,18 +16,14 @@ export default function AcceptInvitation() {
     try {
       const response = await acceptInvitation(token).unwrap();
 
-      console.log(response, "+++++++++++++++++++++");
-
       if (response?.success) {
         // Successful invitation acceptance
         // toast.success('Invitation accepted successfully!');
         setIsProcessing(false);
-        router.push('/projects');
       } else {
         // Handle case where success is false
         // toast.error(response?.message || 'Failed to accept invitation');
         setIsProcessing(false);
-        router.push('/login');
       }
     } catch (error: any) {
       // Handle API errors
@@ -76,7 +71,7 @@ export default function AcceptInvitation() {
               onClick={() => router.push('/projects')}
               className="w-full"
             >
-              Go to Projects
+                accept and  go to Projects
             </Button>
           )}
         </CardFooter>

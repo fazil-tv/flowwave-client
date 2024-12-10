@@ -23,7 +23,7 @@ export enum MemberRole {
 const InviteUserSchema = z.object({
     name: z.string().min(2, { message: "Name must be at least 2 characters long" }),
     email: z.string().email({ message: "Invalid email address" }),
-    projects: z.array(z.string()).min(1, { message: "Select at least one project" }),
+    projects: z.array(z.string()).optional(),
     role: z.enum(Object.values(MemberRole) as [string, ...string[]], {
         errorMap: () => ({ message: "Please select a valid role" })
     }),
