@@ -7,7 +7,6 @@ import { Label } from "@/components/ui/label"
 import { DatePickerWithRange } from '@/components/ui/DatePickerWithRange';
 import { useGlobalUser } from '@/hooks/useGlobalUser';
 import Select from 'react-select';
-
 import {
   Sheet,
   SheetClose,
@@ -95,12 +94,8 @@ interface AddProjectProps {
 }
 
 export const AddProject: React.FC<AddProjectProps> = ({ showAlert }) => {
-
   const { user, isLoading, isError } = useGlobalUser();
-
-
   const userId = user?.data?._id;
-
   const { data: teams, isLoading: isTeamsLoading } = useGetUserTeamsQuery(userId, {
     skip: !userId,
   });

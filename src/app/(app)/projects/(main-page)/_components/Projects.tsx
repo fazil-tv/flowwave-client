@@ -12,6 +12,9 @@ import {
     CardHeader,
     CardTitle,
 } from "@/components/ui/card"
+import Image from 'next/image';
+import { Avatar } from '@radix-ui/react-avatar';
+import { AvatarImage } from '@/components/ui/avatar';
 
 
 export function Projects() {
@@ -20,6 +23,7 @@ export function Projects() {
     useEffect(() => {
         refetch();
     }, [refetch]);
+
 
 
     if (isLoading) return <div>Loading...</div>;
@@ -55,6 +59,7 @@ export function Projects() {
                                         role="progressbar"
                                     >
                                         {project.progress}%
+
                                     </div>
                                 </div>
                             </CardHeader>
@@ -64,7 +69,15 @@ export function Projects() {
                                 <span className="flex items-center">
                                     <div className="avatar">
                                         <div className="ring-custom-purple ring-offset-base-100 w-12 rounded-full ring">
-                                            <img src="https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.webp" />
+
+                                            <Avatar className="w-full h-full ">
+                                                <AvatarImage
+                                                    src={project?.ProjectLead.profileImg || "/images/user-img.jpeg"}
+                                                    alt="User Avatar"
+                                                    className="bg-cover"
+                                                />
+                                            </Avatar>
+
                                         </div>
                                     </div>
                                     <div className="flex items-center ms-3">
@@ -77,7 +90,17 @@ export function Projects() {
                     </Link>
                 ))
             ) : (
-                <div>No projects available</div>
+                <div>
+                    No projects available
+
+                    <Image
+                        src="/images/no-projects.svg"
+                        alt="Description of the image"
+                        width={500}
+                        height={300}
+                    />
+
+                </div>
             )}
         </div>
 

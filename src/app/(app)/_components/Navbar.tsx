@@ -25,7 +25,7 @@ const navItems = [
 export default function Navbar() {
     const [isOpen, setIsOpen] = useState(false);
 
-    const { user, isLoading } = useGlobalUser();
+    const { user, isLoading ,refetch} = useGlobalUser();
 
    
 
@@ -45,7 +45,7 @@ export default function Navbar() {
                 <div className="flex items-center justify-end h-16">
 
                     <div className=''>
-                        <UserInfo user={user.data || null} />
+                    <UserInfo user={user.data} refetch={refetch} />
                     </div>
                     <div className="md:hidden">
                         <Sheet open={isOpen} onOpenChange={setIsOpen}>
